@@ -47,6 +47,9 @@ export default function Settings() {
 
     setSaving(true);
     try {
+      console.log('Saving settings to:', `${EXPO_PUBLIC_BACKEND_URL}/api/settings`);
+      console.log('WhatsApp target:', whatsappTarget);
+      
       const response = await fetch(`${EXPO_PUBLIC_BACKEND_URL}/api/settings`, {
         method: 'PUT',
         headers: {
@@ -57,8 +60,23 @@ export default function Settings() {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to save settings');
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+      
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+      
+      let responseData;
+      try {
+        responseData = JSON.parse(responseText);
+        console.log('Response data:', responseData);
+      } catch (e) {
+        console.error('Failed to parse JSON:', e);
+        throw new Error(`Server returned invalid response: ${responseText}`);
+      }
+
+      if (!response.ok || response.status !== 200) {
+        throw new Error(`Server error: ${response.status} - ${responseText}`);
       }
 
       Alert.alert('Success', 'Settings saved successfully', [
@@ -69,7 +87,8 @@ export default function Settings() {
       ]);
     } catch (error) {
       console.error('Error saving settings:', error);
-      Alert.alert('Error', 'Failed to save settings');
+      console.error('Error details:', error.message);
+      Alert.alert('Error', `Failed to save settings: ${error.message || 'Unknown error'}`);
     } finally {
       setSaving(false);
     }

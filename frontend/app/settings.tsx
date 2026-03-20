@@ -120,6 +120,9 @@ export default function Settings() {
               <Text style={styles.description}>
                 Enter the WhatsApp number (with country code) or group invite link where guest messages should be sent.
               </Text>
+              <Text style={styles.debugText}>
+                Backend URL: {EXPO_PUBLIC_BACKEND_URL || 'NOT SET'}
+              </Text>
 
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>WhatsApp Number / Group Link</Text>
@@ -204,6 +207,12 @@ const styles = StyleSheet.create({
     color: '#999',
     marginBottom: 16,
     lineHeight: 20,
+  },
+  debugText: {
+    fontSize: 11,
+    color: '#666',
+    marginTop: 8,
+    fontFamily: 'monospace',
   },
   inputGroup: {
     marginBottom: 16,

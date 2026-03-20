@@ -371,6 +371,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: '#fff',
+    backgroundColor: '#1e1e1e',
   },
   sendButton: {
     backgroundColor: '#25D366',
